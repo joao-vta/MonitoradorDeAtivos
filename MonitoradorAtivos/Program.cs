@@ -8,14 +8,14 @@ HttpClient httpClient = new HttpClient();
 ConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
 IConfiguration configuration = configurationBuilder.AddUserSecrets<Program>().Build();
 
-string API_KEY = configuration["api:key"];
+string API_KEY = configuration["asset_api_key"];
 
-string DEST_EMAIL = configuration["dest_email:email"];
-string DEST_EMAIL_NAME = configuration["dest_email:name"];
+string DEST_EMAIL = configuration["dest_email_email"];
+string DEST_EMAIL_NAME = configuration["dest_email_name"];
 
-string SOURCE_EMAIL = configuration["source_email:email"];
-string SOURCE_EMAIL_NAME = configuration["source_email:name"];
-string SOURCE_EMAIL_API_KEY = configuration["source_email:key"];
+string SOURCE_EMAIL = configuration["source_email_email"];
+string SOURCE_EMAIL_NAME = configuration["source_email_name"];
+string SOURCE_EMAIL_API_KEY = configuration["source_email_key"];
 
 
 async Task<double> GetLastAssetPrice(string asset)
