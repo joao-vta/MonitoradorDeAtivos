@@ -8,14 +8,21 @@ HttpClient httpClient = new HttpClient();
 ConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
 IConfiguration configuration = configurationBuilder.AddUserSecrets<Program>().Build();
 
-string API_KEY = configuration["asset_api_key"];
+string? API_KEY = configuration["asset_api_key"];
 
-string DEST_EMAIL = configuration["dest_email_email"];
-string DEST_EMAIL_NAME = configuration["dest_email_name"];
+string? DEST_EMAIL = configuration["dest_email_email"];
+string? DEST_EMAIL_NAME = configuration["dest_email_name"];
 
-string SOURCE_EMAIL = configuration["source_email_email"];
-string SOURCE_EMAIL_NAME = configuration["source_email_name"];
-string SOURCE_EMAIL_API_KEY = configuration["source_email_key"];
+string? SOURCE_EMAIL = configuration["source_email_email"];
+string? SOURCE_EMAIL_NAME = configuration["source_email_name"];
+string? SOURCE_EMAIL_API_KEY = configuration["source_email_key"];
+
+if (API_KEY == null || DEST_EMAIL == null || DEST_EMAIL_NAME == null ||
+    SOURCE_EMAIL == null || SOURCE_EMAIL_NAME == null || SOURCE_EMAIL_API_KEY == null)
+{
+    Console.WriteLine("Error: One or more secrets not set.");
+    throw new ArgumentNullException();
+}
 
 
 async Task<double> GetLastAssetPrice(string asset)
@@ -24,7 +31,7 @@ async Task<double> GetLastAssetPrice(string asset)
         asset, API_KEY);
     string responseBody = await httpClient.GetStringAsync(QUERY_URL);
 
-    dynamic parsedResponse = JsonConvert.DeserializeObject(responseBody);
+    dynamic parsedResponse = JsonConvert.DeserializeObject(responseBody)!;
     dynamic parsedData = parsedResponse["Time Series (5min)"];
     SortedDictionary<DateTime, Dictionary<string, double>> formattedData =
         JsonConvert.DeserializeObject<SortedDictionary<DateTime, Dictionary<string, double>>>(parsedData.ToString());
@@ -84,6 +91,7 @@ while (true)
         Console.WriteLine("Asset {0} surpassed R${1}. Advice is to sell.", asset, sellPrice);
         SendEmail("Advice to sell asset", String.Format("Hello! You should probably sell asset {0}. " +
             "It is currenlty worth {1}, more than the set price {2}.", asset, currentPrice, sellPrice));
+        System.Environment.Exit(0);
     }
 
     if (currentPrice < purchasePrice)
@@ -91,6 +99,7 @@ while (true)
         Console.WriteLine("Asset {0} dropped bellow R${1}. Advice is to buy.", asset, purchasePrice);
         SendEmail("Advice to buy asset", String.Format("Hello! You should probably buy asset {0}. " +
             "It is currenlty worth {1}, more than the set price {2}.", asset, currentPrice, purchasePrice));
+        System.Environment.Exit(0);
     }
 
     // Sleep set to 5 minutes due to API limitations
