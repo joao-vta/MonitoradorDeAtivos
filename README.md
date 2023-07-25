@@ -6,7 +6,7 @@ Idealmente, serviria como lembrete para a compra ou venda de ações que cairam 
 
 ## Como usar
 * Para compilar, utilize IDE ou CMD conforme preferência. (O código foi desenvolvido no visual studio, portanto contém incluso uma solução .sln)
-* Para configurar chaves de API's, é necessário definir 6 valores no user secrets do .NET.
+* Além disso é necessário configurar variáveis de ambiente. São necessários 6 valores do user secrets do .NET.
   * source_email_name : Nome de usuário que envia o e-mail
   * source_email_email : Email do usuário que envia e-mail
   * source_email_key : Chave de API da sendgrid válida
