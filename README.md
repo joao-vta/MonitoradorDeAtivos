@@ -1,8 +1,8 @@
 # Monitorador De Ativos
-Uma ferramenta CLI que indica se um ativo sair de um determinado intervalo, avisando o usuário por e-mail.
+Uma ferramenta CLI que indica se um ativo sair de um determinado intervalo, avisando o usuário por e-mail. Programada como parte de um processo seletivo.
 
 ## Utilidade
-Idealmente, serviria como lembrete para a compra ou venda de ações que cairam ou subiram de preço.
+Serviria como lembrete para a compra ou venda de ações que cairam ou subiram de preço.
 
 ## Como usar
 * Para compilar, utilize IDE ou CMD conforme preferência. (O código foi desenvolvido no visual studio, portanto contém incluso uma solução .sln)
